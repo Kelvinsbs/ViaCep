@@ -7,6 +7,7 @@
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
 
+    $cep = str_replace('-', '', $cep);
     $validacao = "SELECT * FROM enderecos_pesquisados WHERE cep = '$cep'";
     $teste = $mysqli->query($validacao);
     $temRegistros = mysqli_fetch_array($teste);
