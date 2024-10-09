@@ -1,6 +1,6 @@
 <?php
     
-    $cep = $_POST['cep'];
+    $cep = @$_POST['cep'];
 
     $mysqli = new mysqli("localhost", "root", "", "viacep");
     if ($mysqli->connect_errno) {
@@ -8,7 +8,6 @@
     }
 
     $validacao = "SELECT * FROM enderecos_pesquisados WHERE cep = '$cep'";
-
     $teste = $mysqli->query($validacao);
     $temRegistros = mysqli_fetch_array($teste);
 
@@ -73,9 +72,8 @@
                     <td>$response->siafi</td>
                 </tr>                
             ";
-
-            $query = "INSERT INTO enderecos_pesquisados (cep,logradouro,complemento,bairro,localidade,uf,ibge,gia,ddd,siafi) VALUES ('$response->cep','$response->logradouro','$complemento','$response->bairro','$response->localidade','$response->uf','$response->ibge','$gia','$response->ddd','$response->siafi')";
-            
+            $cep = str_replace('-', '', $response->cep);
+            $query = "INSERT INTO enderecos_pesquisados (cep,logradouro,complemento,bairro,localidade,uf,ibge,gia,ddd,siafi) VALUES ('$cep','$response->logradouro','$complemento','$response->bairro','$response->localidade','$response->uf','$response->ibge','$gia','$response->ddd','$response->siafi')";
             $mysqli->query($query);
         }
 
